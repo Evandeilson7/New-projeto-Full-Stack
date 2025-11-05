@@ -193,21 +193,21 @@ h1, h2, h3, h4, h5, h6 {
     align-items: flex-start;
     padding: 1rem;
   }
-
+  
   .logo {
     margin-bottom: 1rem;
     margin-right: 0;
   }
-
+  
   nav {
     flex-direction: column;
     gap: 0.5rem;
   }
-
+  
   main {
     padding: 1rem;
   }
-
+  
   button {
     width: 100%;
   }
