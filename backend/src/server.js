@@ -1,45 +1,22 @@
-/**
- * API REST de Usuários
- * Stack: Node.js + Express + Mongoose (MongoDB local/Compass)
- * Rotas base: /api/users
- */
-import express from "express";
-import cors from "cors";
-import morgan from "morgan";
-import { config } from "dotenv";
-import { connectDB } from "./config/db.js";
-import usersRouter from "./routes/users.routes.js";
-import maquinaRouter from './routes/maquinaRouter.js';
-
-
-config(); // carrega .env
+// server.js (para usar com CommonJS)
+const express = require('express');
 const app = express();
+const maquinaRoutes = require('./src/routes/maquinaRouter'); // Importa suas rotas de máquina
 
-// Middlewares básicos
-app.use(cors());             // libera o acesso do front-end
-app.use(express.json());     // habilita JSON no body
-app.use(morgan("dev"));      // logs de requests no console
-app.use('/api/maquinas', maquinaRouter);
+// Middleware para parsear JSON no corpo das requisições
+app.use(express.json());
 
-
-
-// Conectar ao MongoDB
-await connectDB();
-
-// Rota de saúde
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", env: process.env.NODE_ENV || "dev" });
+// Rota principal para verificar se a API está funcionando
+app.get('/', (req, res) => {
+  res.send('API de Máquinas funcionando! Acesse /maquinas para as rotas de máquina.');
 });
 
-// Rotas de usuários
-app.use("/api/users", usersRouter);
+// Usa as rotas de máquina com um prefixo /maquinas
+app.use('/maquinas', maquinaRoutes);
 
-// Sobe o servidor
-
-app.use('/api/maquinas', maquinaRouter);
-
-
+// Porta em que o servidor vai rodar
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`✅ API rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

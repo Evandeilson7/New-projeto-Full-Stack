@@ -1,8 +1,6 @@
-import express from 'express';
-import Maquina from '../models/Maquina.js';
-
-
-
+// maquinaRouter.js (para usar com CommonJS)
+const express = require('express'); // Mudei de import para require
+const Maquina = require('../models/Maquina.js'); // Mudei de import para require
 const router = express.Router();
 
 // Ver todas as máquinas
@@ -46,4 +44,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router; // Mudei de export default para module.exports
