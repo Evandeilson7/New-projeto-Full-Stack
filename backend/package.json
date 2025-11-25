@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "API REST CRUD de usuários com Node.js, Express e MongoDB (Compass local)",
   "main": "src/server.js",
-  "type": "module",
   "scripts": {
     "dev": "node --env-file=.env src/server.js",
     "start": "NODE_ENV=production node src/server.js"
