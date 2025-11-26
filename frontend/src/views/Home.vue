@@ -1,15 +1,23 @@
+Vue
+Copiar
 <template>
   <div class="home-container">
     <div class="header">
       <h1>🏭 Sistema de Gerenciamento</h1>
       <p class="subtitle">Bem-vindo ao sistema!</p>
     </div>
-
     <div class="cards-grid">
       <router-link to="/usuarios" class="card">
         <div class="card-icon">👥</div>
         <h2>Usuários</h2>
         <p>Gerencie os usuários do sistema</p>
+        <button class="card-button">Acessar →</button>
+      </router-link>
+
+      <router-link to="/maquinas" class="card">
+        <div class="card-icon">🏭</div>
+        <h2>Máquinas</h2>
+        <p>Gerencie as máquinas do sistema</p>
         <button class="card-button">Acessar →</button>
       </router-link>
     </div>
@@ -47,6 +55,7 @@
   display: flex;
   justify-content: center;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .card {
