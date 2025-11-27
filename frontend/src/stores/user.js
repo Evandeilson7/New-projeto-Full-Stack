@@ -5,11 +5,13 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     users: [],
     loading: false,
-    error: null
+    error: null,
   }),
+
   getters: {
-    totalUsers: (state) => state.users.length
+    totalUsers: (state) => state.users.length,
   },
+
   actions: {
     async fetchUsers() {
       this.loading = true;
@@ -23,33 +25,31 @@ export const useUserStore = defineStore("user", {
         this.loading = false;
       }
     },
+
     async addUser(user) {
+      this.loading = true;
       this.error = null;
       try {
         const res = await api.post("/users", user);
         this.users.unshift(res.data);
       } catch (e) {
         this.error = e?.response?.data?.error || "Erro ao criar usuário";
+      } finally {
+        this.loading = false;
       }
     },
-    async updateUser(id, payload) {
-      this.error = null;
-      try {
-        const res = await api.put(`/users/${id}`, payload);
-        const idx = this.users.findIndex(u => u._id === id);
-        if (idx !== -1) this.users[idx] = res.data;
-      } catch (e) {
-        this.error = e?.response?.data?.error || "Erro ao atualizar usuário";
-      }
-    },
+
     async removeUser(id) {
+      this.loading = true;
       this.error = null;
       try {
         await api.delete(`/users/${id}`);
-        this.users = this.users.filter(u => u._id !== id);
+        this.users = this.users.filter((u) => u._id !== id);
       } catch (e) {
         this.error = e?.response?.data?.error || "Erro ao remover usuário";
+      } finally {
+        this.loading = false;
       }
-    }
-  }
+    },
+  },
 });

@@ -1,11 +1,7 @@
-Vue
-Copiar
 <template>
   <div class="home-container">
-    <div class="header">
-      <h1>🏭 Sistema de Gerenciamento</h1>
-      <p class="subtitle">Bem-vindo ao sistema!</p>
-    </div>
+    <h2></h2>
+
     <div class="cards-grid">
       <router-link to="/usuarios" class="card">
         <div class="card-icon">👥</div>
@@ -25,7 +21,7 @@ Copiar
 </template>
 
 <script setup>
-// Versão simplificada - SEM buscar dados
+// nada aqui por enquanto
 </script>
 
 <style scoped>
@@ -33,22 +29,7 @@ Copiar
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.header h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #7f8c8d;
+  color: #fff;
 }
 
 .cards-grid {
@@ -56,6 +37,7 @@ Copiar
   justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .card {
@@ -63,7 +45,7 @@ Copiar
   border-radius: 16px;
   padding: 40px;
   text-decoration: none;
-  color: inherit;
+  color: #2c3e50;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   max-width: 400px;
@@ -78,18 +60,6 @@ Copiar
 .card-icon {
   font-size: 4rem;
   margin-bottom: 20px;
-}
-
-.card h2 {
-  font-size: 1.8rem;
-  color: #2c3e50;
-  margin-bottom: 15px;
-}
-
-.card p {
-  color: #7f8c8d;
-  margin-bottom: 25px;
-  font-size: 1.1rem;
 }
 
 .card-button {
