@@ -1,5 +1,3 @@
-Vue
-Copy
 <template>
   <form @submit.prevent="onSubmit" class="user-form">
     <div class="form-group">
@@ -94,6 +92,7 @@ function onSubmit() {
     email: state.email.trim(), 
     role: state.role 
   });
+
   if (!props.edit) {
     resetForm();
   }
@@ -115,59 +114,62 @@ function resetForm() {
 .user-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .form-group label {
   font-weight: 600;
-  color: #2c3e50;
+  color: #ffffff;
   font-size: 0.95rem;
 }
 
 .form-group input,
 .form-group select {
-  padding: 12px;
-  border: 2px solid #e0e0e0;
+  padding: 10px 12px;
   border-radius: 8px;
+  border: 2px solid #e0e0e0;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #2c3e50;
+  transition: all 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #95a5a6;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   border-color: #667eea;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
 }
 
 .form-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .btn-primary,
 .btn-secondary {
-  padding: 12px 24px;
-  border: none;
+  padding: 10px 18px;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
   flex: 1;
 }
 
@@ -179,7 +181,6 @@ function resetForm() {
 .btn-primary:disabled {
   background: #bdc3c7;
   cursor: not-allowed;
-  transform: none;
 }
 
 .btn-secondary {
