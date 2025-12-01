@@ -4,7 +4,7 @@ Copiar
   <div class="app-container">
     <header class="app-header">
       <div class="header-content">
-        <h1 class="logo">🏭 Sistema de Gerenciamento</h1>
+        <h1 class="logo">🏭 evandeilson lindo</h1>
         <nav class="nav-menu">
           <RouterLink to="/" class="nav-link">
             <span class="nav-icon">🏠</span>
@@ -44,7 +44,7 @@ Copiar
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #ee028cff 100%);
   min-height: 100vh;
 }
 

@@ -11,7 +11,7 @@ const doc = {
     version: '1.0.0'
   },
   servers: [
-    { url: 'http://localhost:3000', description: 'Ambiente local (Compass)' }
+    { url: 'https://new-projeto-full-stack.onrender.com', description: 'Ambiente local (Compass)' }
   ],
   tags: [
     { name: 'Máquinas', description: 'Operações CRUD de cadastro de máquinas' }
