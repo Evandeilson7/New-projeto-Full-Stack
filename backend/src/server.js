@@ -1,26 +1,61 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const cors = require('cors');
+
 const app = express();
-const maquinaRoutes = require('./routes/maquinaRouter');
+const PORT = process.env.PORT || 3000;
 
-// Conectar ao MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/maquinas')
-  .then(() => console.log('MongoDB conectado'))
-  .catch(err => console.error('Erro ao conectar MongoDB:', err));
-
-// Middleware para parsear JSON no corpo das requisições
+// Middleware
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// Rota principal para verificar se a API está funcionando
-app.get('/', (req, res) => {
-  res.send('API de Máquinas funcionando! Acesse /maquinas para as rotas de máquina.');
+// Storage em memória
+const users = [];
+const maquinas = [];
+let userId = 1;
+let maquinaId = 1;
+
+// USERS
+app.get('/users', (req, res) => {
+  res.json(users);
 });
 
-// Usa as rotas de máquina com um prefixo /maquinas
-app.use('/maquinas', maquinaRoutes);
+app.post('/users', (req, res) => {
+  const { name, email, role } = req.body;
+  if (!name || !email) return res.status(400).json({ error: 'Nome e email obrigatórios' });
+  const user = { _id: userId++, name, email, role: role || 'user', createdAt: new Date() };
+  users.push(user);
+  res.status(201).json(user);
+});
 
-// Porta em que o servidor vai rodar
-const PORT = process.env.PORT || 3000;
+app.delete('/users/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const idx = users.findIndex(u => u._id === id);
+  if (idx === -1) return res.status(404).json({ error: 'Não encontrado' });
+  users.splice(idx, 1);
+  res.status(204).send();
+});
+
+// MAQUINAS
+app.get('/maquinas', (req, res) => {
+  res.json(maquinas);
+});
+
+app.post('/maquinas', (req, res) => {
+  const { nome, tipo, status } = req.body;
+  if (!nome || !tipo) return res.status(400).json({ error: 'Nome e tipo obrigatórios' });
+  const maq = { _id: maquinaId++, nome, tipo, status: status || 'ativa', dataCriacao: new Date() };
+  maquinas.push(maq);
+  res.status(201).json(maq);
+});
+
+app.delete('/maquinas/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const idx = maquinas.findIndex(m => m._id === id);
+  if (idx === -1) return res.status(404).json({ error: 'Não encontrado' });
+  maquinas.splice(idx, 1);
+  res.status(204).send();
+});
+
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`\n✅ API rodando em http://localhost:${PORT}\n`);
 });

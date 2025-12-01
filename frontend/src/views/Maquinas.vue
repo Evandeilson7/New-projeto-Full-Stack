@@ -8,7 +8,7 @@
     <div class="form-section">
       <h2>➕ Nova Máquina</h2>
       <MaquinaForm
-        @submit="store.addMaquina"
+        @submit="handleAddMaquina"
         :submitting="store.loading"
       />
     </div>
@@ -44,6 +44,12 @@ const editing = ref(null);
 onMounted(() => {
   store.fetchMaquinas();
 });
+
+function handleAddMaquina(maquina) {
+  store.addMaquina(maquina).catch(err => {
+    console.error("Erro ao adicionar máquina:", err);
+  });
+}
 
 function edit(maquina) {
   // por enquanto só loga, depois fazemos edição real

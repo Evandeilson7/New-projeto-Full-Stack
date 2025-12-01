@@ -19,8 +19,10 @@ export const useUserStore = defineStore("user", {
       try {
         const res = await api.get("/users");
         this.users = res.data;
+        console.log("✅ Usuários carregados:", this.users);
       } catch (e) {
         this.error = e?.response?.data?.error || "Erro ao buscar usuários";
+        console.error("❌ Erro ao buscar usuários:", e);
       } finally {
         this.loading = false;
       }
@@ -32,8 +34,12 @@ export const useUserStore = defineStore("user", {
       try {
         const res = await api.post("/users", user);
         this.users.unshift(res.data);
+        console.log("✅ Usuário criado com sucesso:", res.data);
+        return res.data;
       } catch (e) {
         this.error = e?.response?.data?.error || "Erro ao criar usuário";
+        console.error("❌ Erro ao criar usuário:", e);
+        throw e;
       } finally {
         this.loading = false;
       }

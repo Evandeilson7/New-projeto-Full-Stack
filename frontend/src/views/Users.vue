@@ -8,7 +8,7 @@
     <section class="form-section">
       <h2>Novo Usuário</h2>
       <UserForm
-        @submit="store.addUser"
+        @submit="handleAddUser"
         :submitting="store.loading"
       />
     </section>
@@ -37,6 +37,12 @@ const editing = ref(null);
 onMounted(() => {
   store.fetchUsers();
 });
+
+function handleAddUser(user) {
+  store.addUser(user).catch(err => {
+    console.error("Erro ao adicionar usuário:", err);
+  });
+}
 
 function edit(u) {
   // por enquanto só loga
