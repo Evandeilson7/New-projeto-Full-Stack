@@ -40,7 +40,7 @@ export const useMaquinaStore = defineStore("maquina", {
       try {
         const res = await api.post("/maquinas", maquina);
         this.maquinas.unshift(res.data);
-        this.successMessage = "Máquina criada com sucesso!";
+        this.successMessage = "✅ Máquina criada com sucesso!";
         return res.data;
       } catch (e) {
         this.error =
@@ -60,7 +60,7 @@ export const useMaquinaStore = defineStore("maquina", {
         const idx = this.maquinas.findIndex((m) => m._id === id);
         if (idx !== -1) {
           this.maquinas[idx] = res.data;
-          this.successMessage = "Máquina atualizada com sucesso!";
+          this.successMessage = "✅ Máquina atualizada com sucesso!";
         }
         return res.data;
       } catch (e) {

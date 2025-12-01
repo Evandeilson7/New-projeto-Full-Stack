@@ -69,6 +69,31 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // PUT /users/:id
+  if (pathname.match(/^\/users\/\d+$/) && req.method === 'PUT') {
+    const id = parseInt(pathname.split('/')[2]);
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body);
+        const idx = users.findIndex(u => u._id === id);
+        if (idx === -1) {
+          res.writeHead(404);
+          res.end(JSON.stringify({ error: 'Não encontrado' }));
+          return;
+        }
+        users[idx] = { ...users[idx], ...data, updatedAt: new Date() };
+        res.writeHead(200);
+        res.end(JSON.stringify(users[idx]));
+      } catch (e) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: e.message }));
+      }
+    });
+    return;
+  }
+
   // GET /maquinas
   if (pathname === '/maquinas' && req.method === 'GET') {
     res.writeHead(200);
@@ -112,6 +137,31 @@ const server = http.createServer((req, res) => {
     maquinas.splice(idx, 1);
     res.writeHead(204);
     res.end();
+    return;
+  }
+
+  // PUT /maquinas/:id
+  if (pathname.match(/^\/maquinas\/\d+$/) && req.method === 'PUT') {
+    const id = parseInt(pathname.split('/')[2]);
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body);
+        const idx = maquinas.findIndex(m => m._id === id);
+        if (idx === -1) {
+          res.writeHead(404);
+          res.end(JSON.stringify({ error: 'Não encontrado' }));
+          return;
+        }
+        maquinas[idx] = { ...maquinas[idx], ...data };
+        res.writeHead(200);
+        res.end(JSON.stringify(maquinas[idx]));
+      } catch (e) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: e.message }));
+      }
+    });
     return;
   }
 

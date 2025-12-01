@@ -5,16 +5,23 @@
       <span class="badge">{{ store.totalMaquinas }} máquinas</span>
     </div>
 
-    <div class="form-section">
-      <h2>➕ Nova Máquina</h2>
-      <MaquinaForm
-        @submit="handleAddMaquina"
-        :submitting="store.loading"
-      />
-    </div>
-
     <div v-if="store.error" class="error-message">
       ❌ {{ store.error }}
+    </div>
+
+    <div v-if="store.successMessage" class="success-message">
+      ✅ {{ store.successMessage }}
+    </div>
+
+    <div class="form-section">
+      <h2>{{ editingMaquina ? '✏️ Editar Máquina' : '➕ Nova Máquina' }}</h2>
+      <MaquinaForm
+        :initial="editingMaquina"
+        @submit="editingMaquina ? handleUpdateMaquina : handleAddMaquina"
+        :submitting="store.loading"
+        :edit="!!editingMaquina"
+        @cancel="editingMaquina = null"
+      />
     </div>
 
     <div v-if="store.loading && !store.maquinas.length" class="loading">
@@ -25,8 +32,8 @@
       <h2>📋 Lista de Máquinas</h2>
       <MaquinaList 
         :maquinas="store.maquinas" 
-        @edit="edit" 
-        @remove="store.removeMaquina" 
+        @edit="editMaquina" 
+        @remove="deleteMaquina" 
       />
     </div>
   </div>
@@ -39,10 +46,14 @@ import MaquinaForm from "../components/MaquinaForm.vue";
 import MaquinaList from "../components/MaquinaList.vue";
 
 const store = useMaquinaStore();
-const editing = ref(null);
+const editingMaquina = ref(null);
 
 onMounted(() => {
   store.fetchMaquinas();
+  // Limpar mensagens a cada 3 segundos
+  setInterval(() => {
+    if (store.successMessage) store.error = null;
+  }, 3000);
 });
 
 function handleAddMaquina(maquina) {
@@ -51,10 +62,24 @@ function handleAddMaquina(maquina) {
   });
 }
 
-function edit(maquina) {
-  // por enquanto só loga, depois fazemos edição real
-  console.log("Editar máquina:", maquina);
-  editing.value = { ...maquina };
+function handleUpdateMaquina(maquina) {
+  if (!editingMaquina.value) return;
+  store.updateMaquina(editingMaquina.value._id, maquina).then(() => {
+    editingMaquina.value = null;
+  }).catch(err => {
+    console.error("Erro ao atualizar máquina:", err);
+  });
+}
+
+function editMaquina(m) {
+  editingMaquina.value = m;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteMaquina(id) {
+  if (confirm('Tem certeza que deseja deletar esta máquina?')) {
+    store.removeMaquina(id);
+  }
 }
 </script>
 
@@ -98,6 +123,14 @@ function edit(maquina) {
   border-radius: 8px;
   background: rgba(255, 99, 71, 0.15);
   border: 1px solid rgba(255, 99, 71, 0.4);
+}
+
+.success-message {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.4);
 }
 
 .loading {
