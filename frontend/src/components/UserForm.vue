@@ -87,14 +87,19 @@ watch(
 );
 
 function onSubmit() {
-  emit("submit", { 
+  const formData = { 
     name: state.name.trim(), 
     email: state.email.trim(), 
     role: state.role 
-  });
+  };
+  
+  emit("submit", formData);
 
+  // Só reseta o form se não estiver em modo edição
   if (!props.edit) {
-    resetForm();
+    setTimeout(() => {
+      resetForm();
+    }, 100);
   }
 }
 

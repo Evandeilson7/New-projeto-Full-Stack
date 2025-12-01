@@ -4,7 +4,7 @@ Copiar
   <div class="app-container">
     <header class="app-header">
       <div class="header-content">
-        <h1 class="logo">🏭 evandeilson lindo</h1>
+        <h1 class="logo">🏭  </h1>
         <nav class="nav-menu">
           <RouterLink to="/" class="nav-link">
             <span class="nav-icon">🏠</span>

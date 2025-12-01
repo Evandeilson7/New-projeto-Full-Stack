@@ -10,7 +10,7 @@ let maquinaId = 1;
 const server = http.createServer((req, res) => {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Content-Type', 'application/json');
 
@@ -55,32 +55,34 @@ const server = http.createServer((req, res) => {
   }
 
   // DELETE /users/:id
-  if (pathname.match(/^\/users\/\d+$/) && req.method === 'DELETE') {
-    const id = parseInt(pathname.split('/')[2]);
-    const idx = users.findIndex(u => u._id === id);
+  if (pathname.match(/^\/users\//) && req.method === 'DELETE') {
+    const idStr = pathname.split('/')[2];
+    const id = parseInt(idStr);
+    const idx = users.findIndex(u => u._id == id);
     if (idx === -1) {
       res.writeHead(404);
-      res.end(JSON.stringify({ error: 'Não encontrado' }));
+      res.end(JSON.stringify({ error: 'Usuário não encontrado' }));
       return;
     }
     users.splice(idx, 1);
-    res.writeHead(204);
-    res.end();
+    res.writeHead(200);
+    res.end(JSON.stringify({ message: 'Usuário deletado com sucesso' }));
     return;
   }
 
   // PUT /users/:id
-  if (pathname.match(/^\/users\/\d+$/) && req.method === 'PUT') {
-    const id = parseInt(pathname.split('/')[2]);
+  if (pathname.match(/^\/users\//) && req.method === 'PUT') {
+    const idStr = pathname.split('/')[2];
+    const id = parseInt(idStr);
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
       try {
         const data = JSON.parse(body);
-        const idx = users.findIndex(u => u._id === id);
+        const idx = users.findIndex(u => u._id == id);
         if (idx === -1) {
           res.writeHead(404);
-          res.end(JSON.stringify({ error: 'Não encontrado' }));
+          res.end(JSON.stringify({ error: 'Usuário não encontrado' }));
           return;
         }
         users[idx] = { ...users[idx], ...data, updatedAt: new Date() };
@@ -126,32 +128,34 @@ const server = http.createServer((req, res) => {
   }
 
   // DELETE /maquinas/:id
-  if (pathname.match(/^\/maquinas\/\d+$/) && req.method === 'DELETE') {
-    const id = parseInt(pathname.split('/')[2]);
-    const idx = maquinas.findIndex(m => m._id === id);
+  if (pathname.match(/^\/maquinas\//) && req.method === 'DELETE') {
+    const idStr = pathname.split('/')[2];
+    const id = parseInt(idStr);
+    const idx = maquinas.findIndex(m => m._id == id);
     if (idx === -1) {
       res.writeHead(404);
-      res.end(JSON.stringify({ error: 'Não encontrado' }));
+      res.end(JSON.stringify({ error: 'Máquina não encontrada' }));
       return;
     }
     maquinas.splice(idx, 1);
-    res.writeHead(204);
-    res.end();
+    res.writeHead(200);
+    res.end(JSON.stringify({ message: 'Máquina deletada com sucesso' }));
     return;
   }
 
   // PUT /maquinas/:id
-  if (pathname.match(/^\/maquinas\/\d+$/) && req.method === 'PUT') {
-    const id = parseInt(pathname.split('/')[2]);
+  if (pathname.match(/^\/maquinas\//) && req.method === 'PUT') {
+    const idStr = pathname.split('/')[2];
+    const id = parseInt(idStr);
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
       try {
         const data = JSON.parse(body);
-        const idx = maquinas.findIndex(m => m._id === id);
+        const idx = maquinas.findIndex(m => m._id == id);
         if (idx === -1) {
           res.writeHead(404);
-          res.end(JSON.stringify({ error: 'Não encontrado' }));
+          res.end(JSON.stringify({ error: 'Máquina não encontrada' }));
           return;
         }
         maquinas[idx] = { ...maquinas[idx], ...data };

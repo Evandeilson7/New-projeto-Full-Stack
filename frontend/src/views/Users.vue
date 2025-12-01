@@ -10,7 +10,7 @@
       <h2>{{ editingUser ? '✏️ Editar Usuário' : '➕ Novo Usuário' }}</h2>
       <UserForm
         :initial="editingUser"
-        @submit="editingUser ? handleUpdateUser : handleAddUser"
+        @submit="handleSubmitForm"
         :submitting="store.loading"
         :edit="!!editingUser"
         @cancel="editingUser = null"
@@ -46,9 +46,21 @@ onMounted(() => {
 });
 
 function handleAddUser(user) {
-  store.addUser(user).catch(err => {
-    console.error("Erro ao adicionar usuário:", err);
-  });
+  store.addUser(user)
+    .then(() => {
+      console.log("✅ Usuário adicionado com sucesso!");
+    })
+    .catch(err => {
+      console.error("❌ Erro ao adicionar usuário:", err);
+    });
+}
+
+function handleSubmitForm(user) {
+  if (editingUser.value) {
+    handleUpdateUser(user);
+  } else {
+    handleAddUser(user);
+  }
 }
 
 function handleUpdateUser(user) {
