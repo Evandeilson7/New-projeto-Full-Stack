@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Obter URL da API das variáveis de ambiente
-const baseURL = import.meta.env.VITE_API_URL || "https://meu-backend.onrender.com";
+const baseURL = import.meta.env.VITE_API_URL || "https://new-projeto-full-stack-2.onrender.com/api";
 const timeout = parseInt(import.meta.env.VITE_API_TIMEOUT || "10000");
 
 const api = axios.create({
